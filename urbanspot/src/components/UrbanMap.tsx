@@ -5,9 +5,12 @@ import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
-import XYZ from "ol/source/XYZ";
+// --- 1. CAMBIA 'XYZ' POR 'OSM' ---
+import OSM from "ol/source/OSM";
 import { fromLonLat, toLonLat } from "ol/proj";
 import { ScaleLine, defaults as defaultControls } from "ol/control";
+// --- 2. IMPORTA EL TIPO PARA EL EVENTO DE CLIC ---
+import { type MapBrowserEvent } from "ol";
 
 const plConstitutionCoords = [-4.4214, 36.7202]; //Coordenadas de Málaga, el mapa sale centrado en Málaga
 const mapCenter = fromLonLat(plConstitutionCoords);
@@ -25,12 +28,9 @@ export default function UrbanMap({ onMapClick }: UrbanMapProps) {
     const map = new Map({
       target: mapRef.current,
       layers: [
+        // --- 3. USA EL 'source: new OSM()' ---
         new TileLayer({
-          source: new XYZ({
-            url: "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}.png",
-            attributions:
-              '© <a href="https://stadiamaps.com/">Stadia Maps</a>, © <a href="https://openmaptiles.org/">OpenMapTiles</a>, © <a href="https://openstreetmap.org/">OpenStreetMap</a> contributors',
-          }),
+          source: new OSM(), // Esto usa el mapa gratuito de OpenStreetMap
         }),
       ],
       view: new View({
